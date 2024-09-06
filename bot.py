@@ -9,21 +9,17 @@ from time import sleep
 WAIT_FOR_ITEM, WAIT_FOR_TICKER, WAIT_FOR_TRACK_END, WHICH_TO_STOP = range(4)
 
 
-def get_prices(ticker, sites=['bybit', 'exmo', 'binance', 'huobi']):
+def get_prices(ticker, sites=None):
+	if sites is None:
+		sites = ['exmo', 'binance', 'huobi']
 	prices = {}
 	for site in sites:
-		if site == 'bybit':
-			prices['bybit'] = parse('bybit', ticker)
-		if site == 'exmo':
-			prices['exmo'] = parse('exmo', ticker)
-		if site == 'binance':
-			prices['binance'] = parse('binance', ticker)
-		if site == 'huobi':
-			prices['huobi'] = parse('huobi', ticker)
+		prices[site] = parse(site, ticker)
 	return prices
 
 
 def track(update: Update, context: CallbackContext, ticker='', track_id = 0):
+	prices = get_prices(ticker)
 	try:
 		prices = get_prices(ticker)
 	except:
@@ -94,7 +90,7 @@ def main():
 	dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 	if os.path.exists(dotenv_path):
 		load_dotenv(dotenv_path)
-	ACCESS_TOKEN = os.getenv("TOKEN")
+	ACCESS_TOKEN = '5833681789:AAHBMwIaSpL27hPpBZmSplWGjjP4xAbl3ns'
 	updater = Updater(token=ACCESS_TOKEN, use_context=True)
 	stop_handler = CommandHandler('stop', stop)
 	updater.dispatcher.add_handler(stop_handler)

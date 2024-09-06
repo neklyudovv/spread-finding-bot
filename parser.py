@@ -3,13 +3,6 @@ from pybit import spot
 from validate import validate_ticker
 
 def parse(url, coin=''):
-	if url == 'bybit':
-		coin = validate_ticker(coin, 'bybit')
-		if coin == -1:
-			return 'no such ticker'
-		session = spot.HTTP(endpoint='https://api.bybit.com')
-		symbol = session.orderbook(symbol=coin)
-		return symbol['result']['asks'][0][0]
 	if url == 'exmo':
 		coin = validate_ticker(coin, 'exmo')
 		if coin == -1:
@@ -23,7 +16,8 @@ def parse(url, coin=''):
 		coin = validate_ticker(coin, 'binance')
 		if coin == -1:
 			return 'no such ticker'
-		r = requests.get('https://data.binance.com/api/v3/ticker/price')
+		r = requests.get('https://www.binance.com/api/v3/ticker/price')
+		print(r.json())
 		for i in range(0, len(r.json())):
 			if r.json()[i]['symbol'] == coin:
 				return r.json()[i]['price']
