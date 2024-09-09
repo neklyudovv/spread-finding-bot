@@ -36,7 +36,7 @@ def track(update: Update, context: CallbackContext, ticker='', track_id=0):
                 for j in range(1, len(prices)):
                     *p, = prices
                     first, second = float(prices[p[i]]), float(prices[p[j]])
-                    maxprice = max(first, second)
+                    maxprice, minprice = max(first, second)
                     minprice = min(first, second)
                     if maxprice > minprice:
                         percentage = (maxprice - minprice) / minprice * 100
@@ -94,7 +94,7 @@ def main():
     if os.path.exists(dotenv_path):
         load_dotenv(dotenv_path)
     ACCESS_TOKEN = 'яспалилтокенвпрошломкоммите'  # yra
-    # anyway я его поменял уже, анлак
+    # anyway я его поменял уже, анлакs
     updater = Updater(token=ACCESS_TOKEN, use_context=True)
     stop_handler = CommandHandler('stop', stop)
     updater.dispatcher.add_handler(stop_handler)
