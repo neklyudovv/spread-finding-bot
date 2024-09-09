@@ -9,8 +9,6 @@ def validate_ticker(ticker:str, site:str):
 		coin1 = ticker[0:ticker.find('\\')]
 		coin2 = ticker[ticker.find('\\')+1:len(ticker)]
 
-	if site == 'bybit':
-		return (coin1 + coin2).upper()
 	if site == 'exmo':
 		return f'{coin1.upper()}_{coin2.upper()}'
 	if site == 'binance':

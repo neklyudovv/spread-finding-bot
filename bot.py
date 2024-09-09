@@ -8,7 +8,7 @@ from time import sleep
 WAIT_FOR_ITEM, WAIT_FOR_TICKER = range(2)  # conv handler
 
 
-def get_prices(ticker, sites=['exmo', 'binance', 'huobi']):
+def get_prices(ticker:str, sites=['exmo', 'binance', 'huobi']):
     prices = {}
     for site in sites:
         prices[site] = parse(site, ticker)
@@ -36,8 +36,7 @@ def track(update: Update, context: CallbackContext, ticker='', track_id=0):
                 for j in range(1, len(prices)):
                     *p, = prices
                     first, second = float(prices[p[i]]), float(prices[p[j]])
-                    maxprice, minprice = max(first, second)
-                    minprice = min(first, second)
+                    maxprice, minprice = max(first, second), min(first, second)
                     if maxprice > minprice:
                         percentage = (maxprice - minprice) / minprice * 100
                         if percentage >= 2:
@@ -93,8 +92,7 @@ def main():
     dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
     if os.path.exists(dotenv_path):
         load_dotenv(dotenv_path)
-    ACCESS_TOKEN = 'яспалилтокенвпрошломкоммите'  # yra
-    # anyway я его поменял уже, анлакs
+    ACCESS_TOKEN = os.getenv("TOKEN")
     updater = Updater(token=ACCESS_TOKEN, use_context=True)
     stop_handler = CommandHandler('stop', stop)
     updater.dispatcher.add_handler(stop_handler)
