@@ -14,8 +14,11 @@ async def track(update: Update, context: CallbackContext):
     context.user_data['is_active'] = True
 
     context.user_data['task'] = asyncio.create_task(track_price(update, context, ticker))
-
-    await update.message.reply_text(f"Отслеживание {ticker} запущено на следующих биржах:\n" + str(get_prices(ticker)))
+    s = f"Отслеживание {ticker} запущено на следующих биржах:\n"
+    prices = get_prices(ticker)
+    for item in prices:
+        s += f"{item}: {prices[item]}\n"
+    await update.message.reply_text(s)
     return ConversationHandler.END
 
 

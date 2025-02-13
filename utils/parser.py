@@ -1,5 +1,5 @@
 import requests
-from validate import validate_ticker
+from utils.validate import validate_ticker
 
 
 def get_prices(ticker, exchanges=["exmo", "binance", "huobi"]):
@@ -17,7 +17,7 @@ def parse(url, coin=''):
         r = requests.post('https://api.exmo.me/v1.1/ticker',
                           headers={'Content-Type': 'application/x-www-form-urlencoded'})
         try:
-            return r.json()[coin]['sell_price']
+            return float(r.json()[coin]['sell_price'])
         except:
             return 'no such coin | exmo // something went wrong'
     if url == 'binance':
@@ -27,7 +27,7 @@ def parse(url, coin=''):
         r = requests.get('https://www.binance.com/api/v3/ticker/price')
         for i in range(0, len(r.json())):
             if r.json()[i]['symbol'] == coin:
-                return r.json()[i]['price']
+                return round(float(r.json()[i]['price']), 2)
         return 'no such coin | binance // something went wrong'
     if url == 'huobi':
         coin = validate_ticker(coin, 'huobi')
