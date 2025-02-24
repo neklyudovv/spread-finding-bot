@@ -2,7 +2,7 @@ import requests
 from utils.validate import validate_ticker
 
 
-def get_prices(ticker, exchanges=["exmo", "binance", "huobi"]):
+def get_prices(ticker, exchanges):
     prices = {}
     for exchange in exchanges:
         prices[exchange] = parse(exchange, ticker)

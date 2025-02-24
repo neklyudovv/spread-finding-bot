@@ -3,6 +3,7 @@ from telegram.ext import CommandHandler, MessageHandler, filters, CallbackContex
 import asyncio
 from utils.tracker import track_price
 from utils.parser import get_prices
+from config import exchanges
 
 
 async def start(update: Update, context: CallbackContext):
@@ -15,7 +16,7 @@ async def track(update: Update, context: CallbackContext):
 
     context.user_data['task'] = asyncio.create_task(track_price(update, context, ticker))
     s = f"Отслеживание {ticker} запущено на следующих биржах:\n"
-    prices = get_prices(ticker)
+    prices = get_prices(ticker, exchanges)
     for item in prices:
         s += f"{item}: {prices[item]}\n"
     await update.message.reply_text(s)

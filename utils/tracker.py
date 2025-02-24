@@ -1,10 +1,11 @@
 import asyncio
+from config import exchanges as cfg_exchanges
 from utils.parser import get_prices
 
 
 async def track_price(update, context, ticker):
     while context.user_data.get('is_active', False):
-        prices = get_prices(ticker)
+        prices = get_prices(ticker, cfg_exchanges)
         print(prices)
         message = ""
         exchanges = list(prices.keys())
